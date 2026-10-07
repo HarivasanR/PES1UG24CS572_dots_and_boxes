@@ -3,7 +3,7 @@ from rules import valid_move, completed_boxes
 
 class DotsAndBoxes:
     def __init__(self):
-        self.board = Board()
+        self.board = Board(rows = 4, cols = 4)
         self.current = 0
         self.scores = [0, 0]
         self.move_history = []
