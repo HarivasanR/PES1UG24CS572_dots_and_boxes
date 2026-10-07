@@ -6,6 +6,7 @@ class DotsAndBoxes:
         self.board = Board()
         self.current = 0
         self.scores = [0, 0]
+        self.move_history = []
 
     def run(self):
         print("Dots and Boxes")
@@ -19,10 +20,14 @@ class DotsAndBoxes:
             parts = raw.split()
 
             if len(parts) != 3:
-                print("Invalid format.")
+                print("Invalid format. Use: [H/V] [row] [col]")
                 continue
 
             orientation, row, col = parts
+            if orientation not in {"H", "V"}:
+                print("Invalid orientation. Must be 'H' or 'V'.")
+                continue
+
             if not row.isdigit() or not col.isdigit():
                 print("Row and column must be numbers.")
                 continue
@@ -33,7 +38,11 @@ class DotsAndBoxes:
                 continue
 
             before = set(self.board.completed)
-            self.board.add_line(orientation, row, col)
+            
+            # Task 2: Pass current player index to track lines in board module
+            self.board.add_line(orientation, row, col, self.current)
+            self.move_history.append(f"Player {self.current + 1}: {orientation} {row} {col}")
+
             newly_completed = completed_boxes(self.board, before)
 
             if newly_completed:
@@ -44,6 +53,15 @@ class DotsAndBoxes:
 
         self.board.display(self.scores, self.current)
         print("Game over!")
+        
+        # Display match statistics summary
+        print("\n--- Match Statistics & Summary ---")
+        print(f"Total Lines Drawn -> P1: {self.board.lines_drawn[0]}, P2: {self.board.lines_drawn[1]}")
+        print("\nMove History:")
+        for move in self.move_history:
+            print(move)
+        print("-" * 34)
+
         if self.scores[0] == self.scores[1]:
             print("The game is a draw.")
         else:

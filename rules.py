@@ -8,12 +8,13 @@ def valid_move(board, orientation, row, col):
             and 0 <= col < board.cols
             and not board.horizontal[row][col]
         )
-
-    return (
-        0 <= row < board.rows
-        and 0 <= col <= board.cols
-        and not board.vertical[row][col]
-    )
+    elif orientation == "V":
+        return (
+            0 <= row < board.rows
+            and 0 <= col <= board.cols
+            and not board.vertical[row][col]
+        )
+    return False
 
 
 def completed_boxes(board, before):
